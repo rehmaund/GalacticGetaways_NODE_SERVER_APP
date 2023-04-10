@@ -4,15 +4,15 @@ let users = people
 const UserController = (app) => {
   app.get('/api/users', getAllUsers)
   app.get('/api/users/:uid', findUserById);
-  app.get('/api/users/:username', findUserByUsername);
+  app.get('/api/users/username/:username', findUserByUsername);
   app.post('/api/users', createUser);
   app.delete('/api/users/:uid', deleteUser);
   app.put('/api/users/:uid', updateUser);
-  app.put('/api/users/:uid', incrementUserLikes);
-  app.put('/api/users/:uid', incrementUserComments);
-  app.put('/api/users/:uid', incrementUserRecommendations);
-  app.put('/api/users/:uid', incrementUserContributions);
-  app.put('/api/users/:uid', incrementUserActionsTaken);
+  app.put('/api/users/:uid/likes', incrementUserLikes);
+  app.put('/api/users/:uid/comments', incrementUserComments);
+  app.put('/api/users/:uid/recommendation', incrementUserRecommendations);
+  app.put('/api/users/:uid/contributions', incrementUserContributions);
+  app.put('/api/users/:uid/actionsTaken', incrementUserActionsTaken);
 }
 
 const getAllUsers = (req, res) => {
