@@ -13,8 +13,9 @@ const UserController = (app) => {
   app.put('/api/users/:uid/recommendation', incrementUserRecommendations);
   app.put('/api/users/:uid/contributions', incrementUserContributions);
   app.put('/api/users/:uid/actionsTaken', incrementUserActionsTaken);
+  */
 }
-*/
+
 const getAllUsers = async (req, res) => {
   const users = await usersDao.findUsers()
   res.json(users);
@@ -106,4 +107,4 @@ const incrementUserActionsTaken = (req, res) => {
 }
 
 */
-export default UserController
+export default UserController;
