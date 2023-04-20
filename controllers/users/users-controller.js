@@ -1,5 +1,5 @@
-import people from './users.js'
-let users = people
+import * as usersDao from "./users-dao.js";
+
 
 const UserController = (app) => {
   app.get('/api/users', getAllUsers)
@@ -8,121 +8,70 @@ const UserController = (app) => {
   app.post('/api/users', createUser);
   app.delete('/api/users/:uid', deleteUser);
   app.put('/api/users/:uid', updateUser);
-  app.put('/api/users/:uid/likes', incrementUserLikes);
-  app.put('/api/users/:uid/comments', incrementUserComments);
-  app.put('/api/users/:uid/recommendation', incrementUserRecommendations);
-  app.put('/api/users/:uid/contributions', incrementUserContributions);
-  app.put('/api/users/:uid/actionsTaken', incrementUserActionsTaken);
+  app.put('/api/users/:uid/likes', updateUserLikes);
+  app.put('/api/users/:uid/comments', updateUserComments);
+  app.put('/api/users/:uid/actionsTaken', updateUserActionsTaken);
 }
 
-const getAllUsers = (req, res) => {
-  const type = req.query.type
-  if(type) {
-    const usersOfType = users
-    .filter(u => u.type === type)
-    res.json(usersOfType)
-    return
-  }
-  res.json(users)
+const getAllUsers = async (req, res) => {
+  const users = await usersDao.findUsers()
+  res.json(users);
 }
 
-const findUserById = (req, res) => {
+const findUserById = async (req, res) => {
   const userId = req.params.uid;
-  const user = users
-  .find(u => u._id === userId);
+  const user = await usersDao.findByID(userId)
   res.json(user);
 }
 
-const findUserByUsername = (req, res) => {
+const findUserByUsername = async (req, res) => {
   const username = req.params.username;
-  const user = users
-  .find(u => u.username === username);
+  const user = await usersDao.findByUsername(username)
   res.json(user);
 }
 
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
   const newUser = req.body;
-  newUser._id = (new Date()).getTime() + '';
-  if (newUser.type === "ALIEN") {
-    newUser.total_likes = 0;
-    newUser.total_comments = 0;
-  } else if (newUser.type === "HUMAN") {
-    newUser.total_recommendations = 0;
-    newUser.total_contributions = 0;
-  } else if (newUser.type === "MODERATOR") {
-    newUser.total_actions_taken = 0;
-  }
-  users.push(newUser);
-  res.json(newUser);
+  newUser.total_likes = 0;
+  newUser.total_recs = 0;
+  newUser.total_comments = 0;
+  newUser.total_actions_taken = 0;
+  const insertedUser = await usersDao.createUser(newUser);
+  res.json(insertedUser);
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   const userId = req.params.uid;
-  users = users.filter(usr =>
-      usr._id !== userId);
-  res.sendStatus(200);
+  const status = await usersDao.deleteUser(userId);
+  res.json(status);
 }
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
   const userId = req.params.uid;
   const updates = req.body;
-  users = users.map((usr) =>
-      usr._id === userId ?
-          {...usr, ...updates} :
-          usr
-  );
-  res.sendStatus(200);
+  const status = await usersDao.updateUser(userId, updates);
+  res.json(status);
 }
 
-const incrementUserLikes = (req, res) => {
+const updateUserLikes = async (req, res) => {
   const userId = req.params.uid;
-  const user = users
-  .find(u => u._id === userId);
-  if (user.type === "ALIEN") {
-    user.total_likes += 1;
-  }
-  res.json(user);
+  const newLikesNum = req.body;
+  const status = await usersDao.updateLikes(userId, newLikesNum);
+  res.json(status);
 }
 
-const incrementUserComments = (req, res) => {
+const updateUserComments = async (req, res) => {
   const userId = req.params.uid;
-  const user = users
-  .find(u => u._id === userId);
-  if (user.type === "ALIEN") {
-    user.total_comments += 1;
-  }
-  res.json(user);
+  const newCommentsNum = req.body;
+  const status = await usersDao.updateComments(userId, newCommentsNum);
+  res.json(status);
 }
 
-const incrementUserRecommendations = (req, res) => {
+const updateUserActionsTaken = async (req, res) => {
   const userId = req.params.uid;
-  const user = users
-  .find(u => u._id === userId);
-  if (user.type === "HUMAN") {
-    user.total_recommendations += 1;
-  }
-  res.json(user);
+  const newActionsNum = req.body;
+  const status = await usersDao.updateActions(userId, newActionsNum);
+  res.json(status);
 }
 
-const incrementUserContributions = (req, res) => {
-  const userId = req.params.uid;
-  const user = users
-  .find(u => u._id === userId);
-  if (user.type === "HUMAN") {
-    user.total_contributions += 1;
-  }
-  res.json(user);
-}
-
-const incrementUserActionsTaken = (req, res) => {
-  const userId = req.params.uid;
-  const user = users
-  .find(u => u._id === userId);
-  if (user.type === "MODERATOR") {
-    user.total_actions_taken += 1;
-  }
-  res.json(user);
-}
-
-
-export default UserController
+export default UserController;
