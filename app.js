@@ -1,10 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import UserController from "./controllers/users/users-controller.js";
+import SessionController from "./session-controller.js";
 import mongoose from "mongoose";
 import AuthController from "./controllers/users/user-auth/auth-controller.js";
-const DB_CONNECT_STRING = process.env.DB_CONNECT_STRING || 'mongodb://localhost:27017/AlienTravel';
-
+const DB_CONNECT_STRING = 'mongodb+srv://webdevproj:aliens@finalproj.uixtdol.mongodb.net/AlienTravel?retryWrites=true&w=majority';
+//process.env.DB_CONNECT_STRING || 'mongodb://localhost:27017/AlienTravel';
 mongoose.connect(DB_CONNECT_STRING);
 
 import session from "express-session";
@@ -26,5 +27,5 @@ app.use(
 app.use(express.json());
 UserController(app);
 AuthController(app);
-const port = process.env.PORT || 4000;
-app.listen(port);
+SessionController(app);
+app.listen(4000);

@@ -5,7 +5,7 @@ const AuthController = (app) => {
     const register = async (req, res) => { const username = req.body.username;
         const password = req.body.password;
         const user = await usersDao
-            .findByUsername(username);
+            .findUserByCredentials(username, password);
         if (user) {
             res.sendStatus(409);
             return;
@@ -33,7 +33,8 @@ const AuthController = (app) => {
         }
         res.json(currentUser);
     };
-    const logout   = async (req, res) => { req.session.destroy();
+    const logout   = async (req, res) => {
+        req.session.destroy();
         res.sendStatus(200);};
     const update   = async (req, res) => { };
 
