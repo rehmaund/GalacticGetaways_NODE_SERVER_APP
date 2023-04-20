@@ -36,7 +36,7 @@ const createUser = async (req, res) => {
   newUser.total_likes = 0;
   newUser.total_recs = 0;
   newUser.total_comments = 0;
-  newUser.total_actions_taken = 0;
+  newUser.actions_taken = 0;
   const insertedUser = await usersDao.createUser(newUser);
   res.json(insertedUser);
 }
