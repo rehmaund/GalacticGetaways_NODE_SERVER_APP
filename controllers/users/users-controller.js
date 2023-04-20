@@ -1,4 +1,5 @@
 import * as usersDao from "./users-dao.js";
+import {findUserByCredentials} from "./users-dao.js";
 
 
 const UserController = (app) => {
@@ -72,6 +73,14 @@ const updateUserActionsTaken = async (req, res) => {
   const newActionsNum = req.body;
   const status = await usersDao.updateActions(userId, newActionsNum);
   res.json(status);
+}
+
+const findUserByCredentials = async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const status = await usersDao.findUserByCredentials(username, password);
+  res.json(status);
+
 }
 
 export default UserController;
