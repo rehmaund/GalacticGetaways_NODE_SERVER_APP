@@ -4,13 +4,17 @@ import * as usersDao from "./users-dao.js";
 const UserController = (app) => {
   app.get('/api/users', getAllUsers)
   app.get('/api/users/:uid', findUserById);
-  app.get('/api/users/username/:username', findUserByUsername);
+  app.get('/api/users/username/:username', findUserByCredentials);
   app.post('/api/users', createUser);
   app.delete('/api/users/:uid', deleteUser);
   app.put('/api/users/:uid', updateUser);
   app.put('/api/users/:uid/likes', updateUserLikes);
   app.put('/api/users/:uid/comments', updateUserComments);
   app.put('/api/users/:uid/actionsTaken', updateUserActionsTaken);
+  app.post("/api/users/register", register);
+  app.post("/api/users/login",    login);
+  app.post("/api/users/profile",  profile);
+  app.post("/api/users/logout",   logout);
 }
 
 const getAllUsers = async (req, res) => {
@@ -24,18 +28,12 @@ const findUserById = async (req, res) => {
   res.json(user);
 }
 
-const findUserByUsername = async (req, res) => {
-  const username = req.params.username;
-  const user = await usersDao.findByUsername(username)
-  res.json(user);
-}
-
 const createUser = async (req, res) => {
   const newUser = req.body;
   newUser.total_likes = 0;
   newUser.total_recs = 0;
   newUser.total_comments = 0;
-  newUser.total_actions_taken = 0;
+  newUser.actions_taken = 0;
   const insertedUser = await usersDao.createUser(newUser);
   res.json(insertedUser);
 }
@@ -73,5 +71,48 @@ const updateUserActionsTaken = async (req, res) => {
   const status = await usersDao.updateActions(userId, newActionsNum);
   res.json(status);
 }
+
+const findUserByCredentials = async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const status = await usersDao.findUserByCredentials(username, password);
+  res.json(status);
+
+}
+
+const register = async (req, res) => { const username = req.body.username;
+  const password = req.body.password;
+  const user = await usersDao
+      .findUserByCredentials(username, password);
+  if (user) {
+    res.sendStatus(409);
+    return;
+  }
+  const newUser = await usersDao
+      .createUser(req.body);
+  req.session["user"] = newUser;
+  res.json(newUser);
+};
+const login    = async (req, res) => {  const username = req.body.username;
+  const password = req.body.password;
+  const user = await usersDao
+      .findUserByCredentials(username, password);
+  if (user) {
+    req.session["user"] = user;
+    res.json(user);
+  } else {
+    res.sendStatus(404);
+  }
+};
+const profile  = async (req, res) => { const currentUser = req.session["user"];
+  if (!currentUser) {
+    res.sendStatus(404);
+    return;
+  }
+  res.json(currentUser);
+};
+const logout   = async (req, res) => {
+  req.session.destroy();
+  res.sendStatus(200);};
 
 export default UserController;

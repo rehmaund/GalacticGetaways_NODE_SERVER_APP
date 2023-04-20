@@ -12,7 +12,7 @@ export const findByUsername = async (username) => {
 
 export const findByID = async (uid) => {
     try {
-        const user = await usersModel.findOne({uid});
+        const user = await usersModel.findOne({_id: uid});
         return user;
     } catch (error) {
         console.error(error);
@@ -27,3 +27,5 @@ export const updateLikes = (uid, newLikes) => usersModel.updateOne({_id: uid}, {
 export const updateComments = (uid, newComments) => usersModel.updateOne({_id: uid}, {$set: {total_comments: newComments}})
 
 export const updateActions = (uid, newActions) => usersModel.updateOne({_id: uid}, {$set: {actions_taken: newActions}})
+
+export const findUserByCredentials = (username, password) => usersModel.findOne({ username: username, password: password})
