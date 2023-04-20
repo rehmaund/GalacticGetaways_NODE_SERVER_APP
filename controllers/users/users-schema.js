@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 const schema = mongoose.Schema({
-    username: {type: String, required: true},
+    username: {type: String, required: true, unique: true},
     display_name: {type: String, required: true},
     email: String,
     phone: String,
