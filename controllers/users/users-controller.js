@@ -94,6 +94,7 @@ const register = async (req, res) => { const username = req.body.username;
   console.log("new session user set");
   res.json(newUser);
 };
+
 const login    = async (req, res) => {  const username = req.body.username;
   const password = req.body.password;
   const user = await usersDao
@@ -105,6 +106,7 @@ const login    = async (req, res) => {  const username = req.body.username;
     res.sendStatus(404);
   }
 };
+
 const profile  = async (req, res) => { const currentUser = req.session["user"];
   if (!currentUser) {
     res.sendStatus(404);
@@ -112,6 +114,7 @@ const profile  = async (req, res) => { const currentUser = req.session["user"];
   }
   res.json(currentUser);
 };
+
 const logout   = async (req, res) => {
   req.session.destroy();
   res.sendStatus(200);};
