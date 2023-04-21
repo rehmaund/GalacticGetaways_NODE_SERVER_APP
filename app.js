@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import UserController from "./controllers/users/users-controller.js";
+import CommentsController from "./controllers/comments/comments-controller.js";
 import SessionController from "./session-controller.js";
 import mongoose from "mongoose";
 const DB_CONNECT_STRING = 'mongodb+srv://webdevproj:aliens@finalproj.uixtdol.mongodb.net/AlienTravel?retryWrites=true&w=majority';
@@ -28,5 +29,6 @@ app.use(express.json());
 
 UserController(app);
 SessionController(app);
+CommentsController(app);
 app.listen(4000);
 

@@ -7,12 +7,12 @@ export const followUser = async (userId) => {
 
 
 
-import followsSchema = mongoose.Schema({
+const followsSchema = mongoose.Schema({
     follower: {
-        type: mongoode.Schema.types.ObjectId,
+        type: mongoose.Schema.types.ObjectId,
         ref: "users"},
     followed: {
-        type: mongoode.Schema.types.ObjectId,
+        type: mongoose.Schema.types.ObjectId,
         ref: "users"},
     }, {collections: "follows"}
 );
