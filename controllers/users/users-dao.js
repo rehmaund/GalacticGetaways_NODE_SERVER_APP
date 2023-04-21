@@ -18,7 +18,12 @@ export const findByID = async (uid) => {
         console.error(error);
     }
 }
-export const createUser = (user) => usersModel.create(user);
+export const createUser = (user) => {
+    return usersModel.create(user).then(createdUser => {
+        return createdUser;
+    });
+};
+
 export const deleteUser = (uid) => usersModel.deleteOne({_id: uid});
 export const updateUser = (uid, user) => usersModel.updateOne({_id: uid}, user, { new: true })
 
