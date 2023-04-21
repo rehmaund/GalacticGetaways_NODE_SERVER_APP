@@ -4,7 +4,7 @@ import UserController from "./controllers/users/users-controller.js";
 import SessionController from "./session-controller.js";
 import mongoose from "mongoose";
 const DB_CONNECT_STRING = 'mongodb+srv://webdevproj:aliens@finalproj.uixtdol.mongodb.net/AlienTravel?retryWrites=true&w=majority';
-//process.env.DB_CONNECT_STRING || 'mongodb://localhost:27017/AlienTravel';
+
 mongoose.connect(DB_CONNECT_STRING);
 
 import session from "express-session";
@@ -25,6 +25,8 @@ app.use(
     })
 );
 app.use(express.json());
+
 UserController(app);
 SessionController(app);
 app.listen(4000);
+
