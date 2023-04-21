@@ -88,9 +88,10 @@ const register = async (req, res) => { const username = req.body.username;
     res.sendStatus(409);
     return;
   }
-  const newUser = await usersDao
-      .createUser(req.body);
+  const newUser = await usersDao.createUser(req.body);
+  console.log(newUser);
   req.session["user"] = newUser;
+  console.log("new session user set");
   res.json(newUser);
 };
 const login    = async (req, res) => {  const username = req.body.username;
