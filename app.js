@@ -9,6 +9,9 @@ const DB_CONNECT_STRING = 'mongodb+srv://webdevproj:aliens@finalproj.uixtdol.mon
 mongoose.connect(DB_CONNECT_STRING);
 
 import session from "express-session";
+import CountersController from "./controllers/counters/counters-controller.js";
+import InteractionsController
+  from "./controllers/interactions/interactions-controller.js";
 const app = express();
 app.use(
     session({
@@ -30,5 +33,7 @@ app.use(express.json());
 UserController(app);
 SessionController(app);
 CommentsController(app);
+CountersController(app);
+InteractionsController(app);
 app.listen(4000);
 
