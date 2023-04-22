@@ -8,9 +8,14 @@ const UserController = (app) => {
   app.post('/api/users', createUser);
   app.delete('/api/users/:uid', deleteUser);
   app.put('/api/users/:uid', updateUser);
-  app.put('/api/users/:uid/likes', updateUserLikes);
-  app.put('/api/users/:uid/comments', updateUserComments);
-  app.put('/api/users/:uid/actionsTaken', updateUserActionsTaken);
+  app.put('/api/users/:uid/likes/increment', incrementUserLikes);
+  app.put('/api/users/:uid/recommendations/increment', incrementUserRecommendations);
+  app.put('/api/users/:uid/comments/increment', incrementUserComments);
+  app.put('/api/users/:uid/actionsTaken/increment', incrementUserActionsTaken);
+  app.put('/api/users/:uid/likes/decrement', decrementUserLikes);
+  app.put('/api/users/:uid/recommendations/decrement', decrementUserRecommendations);
+  app.put('/api/users/:uid/comments/decrement', decrementUserComments);
+  app.put('/api/users/:uid/actionsTaken/decrement', decrementUserActionsTaken);
   app.post("/api/users/register", register);
   app.post("/api/users/login",    login);
   app.post("/api/users/profile",  profile);
@@ -51,24 +56,51 @@ const updateUser = async (req, res) => {
   res.json(status);
 }
 
-const updateUserLikes = async (req, res) => {
+const incrementUserLikes = async (req, res) => {
   const userId = req.params.uid;
-  const newLikesNum = req.body;
-  const status = await usersDao.updateLikes(userId, newLikesNum);
+  const status = await usersDao.incrementLikes(userId);
   res.json(status);
 }
 
-const updateUserComments = async (req, res) => {
+const incrementUserRecommendations = async (req, res) => {
   const userId = req.params.uid;
-  const newCommentsNum = req.body;
-  const status = await usersDao.updateComments(userId, newCommentsNum);
+  const status = await usersDao.incrementRecommendations(userId);
   res.json(status);
 }
 
-const updateUserActionsTaken = async (req, res) => {
+const incrementUserComments = async (req, res) => {
   const userId = req.params.uid;
-  const newActionsNum = req.body;
-  const status = await usersDao.updateActions(userId, newActionsNum);
+  const status = await usersDao.incrementComments(userId);
+  res.json(status);
+}
+
+const incrementUserActionsTaken = async (req, res) => {
+  const userId = req.params.uid;
+  const status = await usersDao.incrementActions(userId);
+  res.json(status);
+}
+
+const decrementUserLikes = async (req, res) => {
+  const userId = req.params.uid;
+  const status = await usersDao.decrementLikes(userId);
+  res.json(status);
+}
+
+const decrementUserRecommendations = async (req, res) => {
+  const userId = req.params.uid;
+  const status = await usersDao.decrementRecommendations(userId);
+  res.json(status);
+}
+
+const decrementUserComments = async (req, res) => {
+  const userId = req.params.uid;
+  const status = await usersDao.decrementComments(userId);
+  res.json(status);
+}
+
+const decrementUserActionsTaken = async (req, res) => {
+  const userId = req.params.uid;
+  const status = await usersDao.decrementActions(userId);
   res.json(status);
 }
 
