@@ -5,11 +5,8 @@ function FollowsController(app) {
     const followUser = async (req, res) => {
         const currentUser = req.params['followerId'];
         const followed = req.params['followedId'];
-        console.log(followed);
         const followObj = { follower: currentUser, followed: followed};
-        console.log(followObj);
         const follows = await followDao.followUser(followObj);
-        console.log(follows);
         res.json(follows);
     }
 
@@ -23,11 +20,7 @@ function FollowsController(app) {
 
     const followers = async (req, res) => {
         const followed = req.params['followedId'];
-        console.log("followed id: ");
-        console.log(followed);
         const followers = await followDao.followers(followed);
-        console.log("my followers:");
-        console.log(followers);
         res.json(followers);
 
     }
@@ -35,8 +28,6 @@ function FollowsController(app) {
     const following = async (req, res) => {
         const follower = req.params['follower'];
         const whoAmIFollowing = await followDao.following(follower);
-        console.log("following: ");
-        console.log(whoAmIFollowing);
         res.json(whoAmIFollowing);
     }
 

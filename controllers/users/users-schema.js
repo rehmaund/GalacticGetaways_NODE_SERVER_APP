@@ -11,7 +11,7 @@ const schema = mongoose.Schema({
     location: {type: String, required: true},
     total_likes: Number,
     total_recs: Number,
-    total_comments: Number,
+    total_comments: {type: Number, required: true},
     actions_taken: Number,
 }, {collection: 'users'});
 export default schema;

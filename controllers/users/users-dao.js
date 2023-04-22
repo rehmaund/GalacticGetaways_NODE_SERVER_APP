@@ -27,10 +27,20 @@ export const createUser = (user) => {
 export const deleteUser = (uid) => usersModel.deleteOne({_id: uid});
 export const updateUser = (uid, user) => usersModel.updateOne({_id: uid}, user, { new: true })
 
-export const updateLikes = (uid, newLikes) => usersModel.updateOne({_id: uid}, {$set: {total_likes: newLikes}})
+export const incrementLikes = (uid) => usersModel.updateOne({_id: uid}, {$inc: {total_likes: 1}})
 
-export const updateComments = (uid, newComments) => usersModel.updateOne({_id: uid}, {$set: {total_comments: newComments}})
+export const incrementRecommendations = (uid) => usersModel.updateOne({_id: uid}, {$inc: {total_recs: 1}})
 
-export const updateActions = (uid, newActions) => usersModel.updateOne({_id: uid}, {$set: {actions_taken: newActions}})
+export const incrementComments = (uid) => usersModel.updateOne({_id: uid}, {$inc: {total_comments: 1}})
+
+export const incrementActions = (uid) => usersModel.updateOne({_id: uid}, {$inc: {actions_taken: 1}})
+
+export const decrementLikes = (uid) => usersModel.updateOne({_id: uid}, {$inc: {total_likes: -1}})
+
+export const decrementRecommendations = (uid) => usersModel.updateOne({_id: uid}, {$inc: {total_recs: -1}})
+
+export const decrementComments = (uid) => usersModel.updateOne({_id: uid}, {$inc: {total_comments: -1}})
+
+export const decrementActions = (uid) => usersModel.updateOne({_id: uid}, {$inc: {actions_taken: -1}})
 
 export const findUserByCredentials = (username, password) => usersModel.findOne({ username: username, password: password})
