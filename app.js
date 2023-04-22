@@ -9,9 +9,11 @@ const DB_CONNECT_STRING = 'mongodb+srv://webdevproj:aliens@finalproj.uixtdol.mon
 mongoose.connect(DB_CONNECT_STRING);
 
 import session from "express-session";
+import FollowsController from "./controllers/follows/follows-controller.js";
 import CountersController from "./controllers/counters/counters-controller.js";
 import InteractionsController
   from "./controllers/interactions/interactions-controller.js";
+import FlagsController from "./controllers/flags/flags-controller.js";
 const app = express();
 app.use(
     session({
@@ -33,7 +35,10 @@ app.use(express.json());
 UserController(app);
 SessionController(app);
 CommentsController(app);
+FollowsController(app);
 CountersController(app);
 InteractionsController(app);
+FlagsController(app);
+
 app.listen(4000);
 

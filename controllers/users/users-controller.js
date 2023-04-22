@@ -107,12 +107,13 @@ const login    = async (req, res) => {  const username = req.body.username;
   }
 };
 
-const profile  = async (req, res) => { const currentUser = req.session["user"];
-  if (!currentUser) {
+const profile  = async (req, res) => {
+  const user = req.session["user"];
+  if (!user) {
     res.sendStatus(404);
     return;
   }
-  res.json(currentUser);
+  res.json(user);
 };
 
 const logout   = async (req, res) => {
