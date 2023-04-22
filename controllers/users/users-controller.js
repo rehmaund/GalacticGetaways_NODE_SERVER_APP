@@ -103,7 +103,7 @@ const login    = async (req, res) => {  const username = req.body.username;
     req.session["user"] = user;
     res.json(user);
   } else {
-    res.sendStatus(404);
+    res.status(401).json({ message: "Invalid credentials. Please try again." });
   }
 };
 
