@@ -2,7 +2,7 @@ import * as flagsDao from './flags-dao.js'
 
 const FlagsController = (app) => {
   app.get('/api/flags', getAllFlags);
-  app.get('/api/flags/:user/:item', getFlagByBothIds);
+  app.get('/api/flags/:user/:comment', getFlagByBothIds);
   app.post('/api/flags', createFlag);
   app.delete('/api/flags/:fid', deleteFlag);
 }
@@ -14,13 +14,14 @@ const getAllFlags = async (req, res) => {
 
 const getFlagByBothIds = async (req, res) => {
   const user = req.params.user;
-  const item = req.params.item;
-  const flag = await flagsDao.getFlagByBothIds(user, item);
+  const comment = req.params.comment;
+  const flag = await flagsDao.getFlagByBothIds(user, comment);
   res.json(flag);
 }
 
 const createFlag = async (req, res) => {
   const newFlag = req.body;
+  console.log(newFlag)
   const insertedFlag = await flagsDao.createFlag(newFlag);
   res.json(insertedFlag);
 }
