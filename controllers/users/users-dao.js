@@ -3,7 +3,7 @@ export const findUsers = () => usersModel.find();
 
 export const findByUsername = async (username) => {
     try {
-        const user = await usersModel.findOne({username});
+        const user = await usersModel.findOne({username: username});
         return user;
     } catch (error) {
         console.error(error);

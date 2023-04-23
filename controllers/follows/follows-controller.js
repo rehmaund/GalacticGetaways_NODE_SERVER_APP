@@ -1,4 +1,3 @@
-import followsModel from "./follows-model.js";
 import * as followDao from "./follows-dao.js";
 
 function FollowsController(app) {

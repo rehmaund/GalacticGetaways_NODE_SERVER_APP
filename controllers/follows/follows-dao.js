@@ -9,14 +9,10 @@ export const unfollowUser = async (unfollow) => {
 }
 
 export const followers = async (followed) => {
-    console.log("in dao, followed:");
-    console.log(followed);
-    return (await followsModel.find({followed: followed}));
+    return (await followsModel.find({followed: followed}).populate('follower'));
 
 };
 
 export const following = async (follower) => {
-    console.log("dao followr: ");
-    console.log(follower);
-    return (await followsModel.find({follower: follower}));
+    return (await followsModel.find({follower: follower}).populate('followed'));
 };
