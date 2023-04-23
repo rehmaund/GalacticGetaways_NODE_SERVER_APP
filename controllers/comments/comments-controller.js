@@ -8,6 +8,7 @@ const CommentsController = (app) => {
   app.post('/api/comments', addNewComment);
   app.delete('/api/comments/:cid', deleteComment);
   app.put('/api/comments/:cid', updateComment);
+  app.get('/api/comments/username/:username', findCommentsByUsername);
 }
 
 const getAllComments = async (req, res) => {
@@ -24,6 +25,12 @@ const findCommentById = async (req, res) => {
 const findCommentsByUserId = async (req, res) => {
   const userId = req.params.uid;
   const comments = await commentsDao.findByUserId(userId)
+  res.json(comments);
+}
+
+const findCommentsByUsername = async (req, res) => {
+  const username = req.params.username;
+  const comments = await commentsDao.findByUsername(username)
   res.json(comments);
 }
 
