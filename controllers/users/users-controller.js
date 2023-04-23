@@ -4,7 +4,7 @@ import * as usersDao from "./users-dao.js";
 const UserController = (app) => {
   app.get('/api/users', getAllUsers)
   app.get('/api/users/:uid', findUserById);
-  app.get('/api/users/username/:username', findUserByCredentials);
+  app.get('/api/users/username/:username', findByUsername);
   app.post('/api/users', createUser);
   app.delete('/api/users/:uid', deleteUser);
   app.put('/api/users/:uid', updateUser);
@@ -30,6 +30,12 @@ const getAllUsers = async (req, res) => {
 const findUserById = async (req, res) => {
   const userId = req.params.uid;
   const user = await usersDao.findByID(userId)
+  res.json(user);
+}
+
+const findByUsername = async (req, res) => {
+  const username = req.params.username;
+  const user = await usersDao.findByUsername(username)
   res.json(user);
 }
 
