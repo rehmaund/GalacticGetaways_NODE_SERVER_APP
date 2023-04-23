@@ -19,6 +19,15 @@ export const findByUserId = async (uid) => {
     }
 }
 
+export const findByUsername = async (username) => {
+    try {
+        const comments = await commentsModel.find({username});
+        return comments;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const findByPlaceId = async (xid) => {
     try {
         const comments = await commentsModel.find({xid: xid});
