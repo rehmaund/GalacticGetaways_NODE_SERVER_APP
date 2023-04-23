@@ -4,11 +4,17 @@ const CountersController = (app) => {
   app.get('/api/counters/:xid', findCountersByPlaceId);
   app.post('/api/counters', createCounter);
   app.put('/api/counters/:xid', updateCounter);
+  app.get('/api/counters', findAllCounters);
 }
 
 const findCountersByPlaceId = async (req, res) => {
   const xid = req.params.xid;
   const counters = await countersDao.findCountersByPlaceId(xid)
+  res.json(counters);
+}
+
+const findAllCounters = async (req, res) => {
+  const counters = await countersDao.findAllCounters();
   res.json(counters);
 }
 

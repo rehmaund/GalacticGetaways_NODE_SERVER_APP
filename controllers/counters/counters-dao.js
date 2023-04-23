@@ -9,6 +9,15 @@ export const findCountersByPlaceId = async (xid) => {
     }
 }
 
+export const findAllCounters = async () => {
+    try {
+        const counters = await countersModel.find();
+        return counters;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export const createCounter = (counter) => countersModel.create(counter);
 
 export const updateCounter = async (xid, counter) => {
