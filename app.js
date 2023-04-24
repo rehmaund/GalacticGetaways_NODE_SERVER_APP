@@ -24,12 +24,10 @@ app.use(
     })
 );
 
-const origin = process.env.HOSTED_WHERE || "http://localhost:3000"
-
 app.use(
     cors({
         credentials: true,
-        origin: origin,
+        origin: ["http://localhost:3000", "https://spontaneous-arithmetic-042d36.netlify.app/"],
     })
 );
 app.use(express.json());
