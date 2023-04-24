@@ -1,4 +1,5 @@
 import * as usersDao from "./users-dao.js";
+import * as countersDao from "../counters/counters-dao.js";
 
 
 const UserController = (app) => {
@@ -57,8 +58,9 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const userId = req.params.uid;
-  const updates = req.body;
-  const status = await usersDao.updateUser(userId, updates);
+  const user = req.body;
+  console.log(user)
+  const status = await usersDao.updateUser(userId, user);
   res.json(status);
 }
 

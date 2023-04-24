@@ -1,4 +1,5 @@
 import usersModel from './users-model.js';
+import countersModel from "../counters/counters-model.js";
 export const findUsers = () => usersModel.find();
 
 export const findByUsername = async (username) => {
@@ -25,7 +26,15 @@ export const createUser = (user) => {
 };
 
 export const deleteUser = (uid) => usersModel.deleteOne({_id: uid});
-export const updateUser = (uid, user) => usersModel.updateOne({_id: uid}, user, { new: true })
+export const updateUser = async (uid, user) => {
+    try {
+        console.log(user);
+        const updatedUser = await usersModel.updateOne({_id: uid}, {$set: user});
+        return updatedUser;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 export const incrementLikes = (uid) => usersModel.updateOne({_id: uid}, {$inc: {total_likes: 1}})
 
